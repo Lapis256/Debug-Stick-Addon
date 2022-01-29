@@ -1,0 +1,25 @@
+item.lapis256:debug_stick=デバッグ棒
+
+common.property_not_found=プロパティが存在しません。
+
+settings.operation.title=動作タイプ設定
+settings.operation.description=デバッグ棒の動作方法の設定です。 
+settings.operation.current=現在
+
+operation.duplicate.name=複製
+operation.duplicate.description=プロパティを複製します。
+operation.duplicate.settings.done=プロパティを保存しました。
+operation.duplicate.property_changed=プロパティを複製しました。
+
+operation.gui.name=GUI
+operation.gui.description=GUIで全てを設定します。
+operation.gui.property_changed=プロパティを変更しました。
+operation.gui.settings.title=プロパティ設定
+operation.gui.settings.done=設定を保存しました。
+
+operation.tap.name=タップ
+operation.tap.description=Java Editionと同じような動作です。
+operation.tap.property_changed=%s の値を %s に変更しました。
+operation.tap.settings.title=プロパティ設定
+operation.tap.settings.description=プロパティを選択してください。
+operation.tap.settings.done=%s を選択しました。

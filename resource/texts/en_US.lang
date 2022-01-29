@@ -1,0 +1,25 @@
+item.lapis256:debug_stick=Debug Stick
+
+common.property_not_found=The property does not exist.
+
+settings.operation.title=Operation type setting
+settings.operation.description=This is a configuration menu to modify the Debug Stick’s behaviour.
+settings.operation.current=Currently selected
+
+operation.duplicate.name=Duplicate
+operation.duplicate.description=duplicate property.
+operation.duplicate.settings.done=Saved the property.
+operation.duplicate.property_changed=Duplicated the property.
+
+operation.gui.name=GUI
+operation.gui.description=dynamically control the properties by an in-game GUI.
+operation.gui.property_changed=Changed the property.
+operation.gui.settings.title=Property settings
+operation.gui.settings.done=Saved the settings.
+
+operation.tap.name=Tap
+operation.tap.description=makes its behaviour like in Java Edition.
+operation.tap.settings.title=Property settings
+operation.tap.property_changed=Changed the value of %s to %s.
+operation.tap.settings.description=Please select a property.
+operation.tap.settings.done=Saved the settings.
