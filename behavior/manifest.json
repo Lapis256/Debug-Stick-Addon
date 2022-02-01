@@ -4,7 +4,7 @@
         "description": "Add Debug Stick.",
         "name": "Debug Stick Addon",
         "uuid": "44458f7b-febf-4794-800b-5e68bc1c5410",
-        "version": [ 1, 0, 0 ],
+        "version": [ 1, 1, 0 ],
         "min_engine_version": [ 1, 18, 20 ]
     },
     "modules": [
@@ -14,20 +14,20 @@
             "type": "javascript",
             "language": "JavaScript",
             "entry": "scripts/main.js",
-            "version": [ 1, 0, 0 ]
+            "version": [ 1, 1, 0 ]
         },
         {
             "description": "Debug Stick Data",
             "uuid": "6d5623da-e47e-4075-87d4-7e963ff99f74",
             "type": "data",
-            "version": [ 1, 0, 0 ]
+            "version": [ 1, 1, 0 ]
         }
     ],
     "dependencies": [
         {
             /* Resource Pack */
 			"uuid": "5e79e091-8ded-46c4-a1c5-d419e97f0e63",
-			"version": [ 1, 0, 0 ]
+			"version": [ 1, 1, 0 ]
 		},
         {
             /* GameTest Module */
@@ -49,7 +49,7 @@
 		"authors": [
 			"Lapis256"
 		],
-		"url": "https://github.com/Lapis256",
-		"license": "https://github.com/Lapis256/mcbe/blob/main/LICENSE"
+		"url": "https://github.com/Lapis256/Debug-Stick-Addon",
+		"license": "https://github.com/Lapis256/Debug-Stick-Addon/blob/main/LICENSE"
 	}
 }

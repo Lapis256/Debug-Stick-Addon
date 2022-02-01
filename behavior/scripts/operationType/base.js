@@ -1,12 +1,15 @@
+import TEXT_PREFIX from "./prefix.js";
+
+
 export default class Base {
     id;
 
     get name() {
-        return `operation.${this.id}.name`;
+        return TEXT_PREFIX + this.id;
     }
 
     get description() {
-        return `operation.${this.id}.description`;
+        return `${TEXT_PREFIX}${this.id}.description`;
     }
 
     #data = {};

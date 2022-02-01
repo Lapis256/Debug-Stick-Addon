@@ -4,7 +4,7 @@
 		"description": "Add Debug Stick.",
 		"name": "Debug Stick Addon",
 		"uuid": "5e79e091-8ded-46c4-a1c5-d419e97f0e63",
-		"version": [ 1, 0, 0 ],
+		"version": [ 1, 1, 0 ],
 		"min_engine_version": [ 1, 18, 20 ]
 	},
 	"modules": [
@@ -12,20 +12,20 @@
 			"description": "Resource Module",
 			"type": "resources",
 			"uuid": "4474c780-9d01-4ea7-b36c-1be9c755ab18",
-			"version": [ 1, 0, 0 ]
+			"version": [ 1, 1, 0 ]
 		}
 	],
 	"dependencies": [
 		{
 			"uuid": "44458f7b-febf-4794-800b-5e68bc1c5410",
-			"version": [ 1, 0, 0 ]
+			"version": [ 1, 1, 0 ]
 		}
 	],
 	"metadata": {
 		"authors": [
 			"Lapis256"
 		],
-		"url": "https://github.com/Lapis256",
-		"license": "https://github.com/Lapis256/mcbe/blob/main/LICENSE"
+		"url": "https://github.com/Lapis256/Debug-Stick-Addon",
+		"license": "https://github.com/Lapis256/Debug-Stick-Addon/blob/main/LICENSE"
 	}
 }

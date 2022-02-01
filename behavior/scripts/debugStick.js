@@ -1,11 +1,15 @@
 import { world } from "mojang-minecraft";
-import { ActionFormData } from "mojang-minecraft-ui";
+import { ActionFormData, MessageFormData } from "mojang-minecraft-ui";
 
-import { Gamemode, BlockRaycastOptions } from "./lib/gametest-utility-lib.js";
-import { send } from "./translate.js";
+import { Gamemode, BlockRaycastOptions, pprint, print } from "./lib/gametest-utility-lib.js";
+import { OPERATION_TYPES } from "./operationType/index.js";
+import { DebugStickItem } from "./debugStickItem.js";
+import { INPUT_TYPES } from "./inputType.js";
+import { Client } from "./client.js";
 
 
-const TAG_NAMESPACE = "debug_stick_operation_type:";
+const OPERATION_TYPE_TAG_NAMESPACE = "debug_stick_operation_type:";
+const INPUT_TYPE_TAG_NAMESPACE = "debug_stick_input_type:";
 
 
 export default class DebugStick {
@@ -18,82 +22,86 @@ export default class DebugStick {
         this.#subscribeEvents();
     }
 
-    registerOperationType(operationType) {
-        if(this.#operationTypes.find(t => t.id === operationType.id)) {
-            throw "An operationType with the same name already exists.";
+    async #openSettings(client, item) {
+        const { isCanceled, selection } = await (new MessageFormData()
+            .title("%settings.title")
+            .button1("%settings.input.title")
+            .button2("%settings.operation.title")
+            .body("%settings.description")
+            .show(client.player));
+        if(isCanceled) return;
+
+        if(selection === 1) {
+            await this.#inputTypeSetting(client);
+            return;
         }
-
-        this.#operationTypes.push(operationType);
+        await this.#operationTypeSetting(client, item);
     }
 
-    #getLookingBlock(player) {
-        const option = new BlockRaycastOptions({
-            includeLiquidBlocks: true,
-            includePassableBlocks: true,
-            maxDistance: 12
-        });
-        return player.getBlockFromViewVector(option);
-    }
+    async #inputTypeSetting(client) {
+        const { isCanceled, selection } = await (new MessageFormData()
+            .title("%settings.input.title")
+            .body("%settings.input.description")
+            .button1("%settings.input.tap")
+            .button2("%settings.input.others")
+            .show(client.player));
+        if(isCanceled) return;
 
-    #getOperationTypeID(player) {
-        const typeTag = player.getTags().find(t => t.startsWith(TAG_NAMESPACE));
-        if(!typeTag) {
-            const id = this.#operationTypes[0].id;
-            player.addTag(TAG_NAMESPACE + id);
-            return id;
+        if(selection === 1) {
+            client.inputType = INPUT_TYPES.tap;
+            return;
         }
-        return typeTag.replace(TAG_NAMESPACE, "");
+        client.inputType = INPUT_TYPES.others;
     }
 
-    #getOperationType(player) {
-        const id = this.#getOperationTypeID(player);
-        return this.#operationTypes.find(t => t.id === id);
-    }
-
-    async #changeOperationType(player) {
+    async #operationTypeSetting(client, item) {
         const descriptionTexts = [
             "%settings.operation.description\n"
         ];
 
         const form = new ActionFormData()
             .title("%settings.operation.title");
-        this.#operationTypes.forEach(({ name, description }) => {
+        OPERATION_TYPES.forEach(({ name, description }) => {
             descriptionTexts.push(`%${name}: %${description}`);
-            form.button(name);
+            form.button("%" + name);
         });
-        const currentType = this.#getOperationType(player);
+
         const description = descriptionTexts.join("\n");
         form.body(
-            `${description}\n\n%settings.operation.current: "%${currentType.name}"\n\n`
+            `${description}\n\n%settings.operation.current: "%${item.operationType.name}"\n\n`
         );
 
-        const { isCanceled, selection } = await form.show(player);
+        const { isCanceled, selection } = await form.show(client.player);
         if(isCanceled) return;
 
-        const type = this.#operationTypes[selection];
-        player.removeTag(TAG_NAMESPACE + currentType.id);
-        player.addTag(TAG_NAMESPACE + type.id);
+        item.operationType = OPERATION_TYPES[selection];
+        item.setToClient(client);
     }
 
-    #itemUseEventHandler({ source: player }) {
-        const block = this.#getLookingBlock(player);
+    #itemUseEventHandler({ item, source: player }) {
+        const client = new Client(player);
+        const debugItem = new DebugStickItem(item);
+        const block = client.getLookingBlock();
         if(!block) {
-            this.#changeOperationType(player).catch(console.error);
+            this.#openSettings(client, debugItem).catch(console.error);
             return;
         }
+        if(!client.isTap && player.isSneaking) return;
+
         const properties = block.permutation.getAllProperties();
         if(properties.length === 0) {
-            send(player, "common.property_not_found");
+            client.send("common.property_not_found");
             return;
         }
-        const type = this.#getOperationType(player);
-        type.doSetting(player, block).catch(console.error);
+        debugItem.operationType.doSetting(client, debugItem, block)
+            .catch(console.error);
     }
 
-    #itemUseOnEventHandler({ blockLocation, source: player }) {
+    #itemUseOnEventHandler({ item, blockLocation, source: player }) {
         const block = player.dimension.getBlock(blockLocation);
-        const type = this.#getOperationType(player);
-        type.doBlockStateChange(player, block);
+        const client = new Client(player);
+        const debugItem = new DebugStickItem(item);
+        debugItem.operationType.doBlockStateChange(client, debugItem, block);
     }
 
     #eventCheckWrapper(handler) {

@@ -1,22 +1,21 @@
 import { ModalFormData } from "mojang-minecraft-ui";
 
-import { isSequence } from "../lib/gametest-utility-lib.js";
-import { send, show } from "../translate.js";
+import { isSequence, pprint } from "../lib/gametest-utility-lib.js";
 import Base from "./base.js";
 
 
 export default class GUI extends Base {
     id = "gui";
 
-    async doSetting(player, block) {
+    async doSetting(client, item, block) {
         const permutation = block.permutation.clone();
         const properties = permutation.getAllProperties();
 
         const form = new ModalFormData()
             .title("%operation.gui.settings.title");
-        const current = this.getData(player, block) ?? permutation;
+        const currentPermutation = item.getPermutation(block) ?? permutation;
         properties.forEach(({ name, value, validValues }) => {
-            const { value: currentValue } = current.getProperty(name);
+            const { value: currentValue } = currentPermutation.getProperty(name);
             switch(typeof value) {
                 case "boolean":
                     form.toggle(name, currentValue);
@@ -42,7 +41,7 @@ export default class GUI extends Base {
             }
         });
         
-        const { isCanceled, formValues } = await form.show(player);
+        const { isCanceled, formValues } = await form.show(client.player);
         if(isCanceled) return;
 
         formValues.forEach((value, i) => {
@@ -53,15 +52,17 @@ export default class GUI extends Base {
             }
             property.value = value;
         });
-        this.addData(player, block, permutation);
-        send(player, "operation.gui.settings.done");
+        pprint(permutation.getAllProperties())
+        item.addPermutation(block, permutation);
+        item.setToClient(client);
+        client.send("operation.gui.settings.done");
     }
 
-    doBlockStateChange(player, block) {
-        const permutation = this.getData(player, block);
+    doBlockStateChange(client, item, block) {
+        const permutation = item.getPermutation(block);
         if(!permutation) return;
 
         block.setPermutation(permutation);
-        show(player, "operation.gui.property_changed");
+        client.show("operation.gui.property_changed");
     }
 }
