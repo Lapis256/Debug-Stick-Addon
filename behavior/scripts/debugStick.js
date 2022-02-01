@@ -1,10 +1,10 @@
 import { world } from "mojang-minecraft";
 import { ActionFormData, MessageFormData } from "mojang-minecraft-ui";
 
-import { Gamemode, BlockRaycastOptions, pprint, print } from "./lib/gametest-utility-lib.js";
+import { Gamemode } from "./lib/gametest-utility-lib.js";
 import { OPERATION_TYPES } from "./operationType/index.js";
-import { DebugStickItem } from "./debugStickItem.js";
 import { INPUT_TYPES } from "./inputType.js";
+import { DebugStickItem } from "./debugStickItem.js";
 import { Client } from "./client.js";
 
 
@@ -25,17 +25,17 @@ export default class DebugStick {
     async #openSettings(client, item) {
         const { isCanceled, selection } = await (new MessageFormData()
             .title("%settings.title")
-            .button1("%settings.input.title")
-            .button2("%settings.operation.title")
+            .button1("%settings.operation.title")
+            .button2("%settings.input.title")
             .body("%settings.description")
             .show(client.player));
         if(isCanceled) return;
 
         if(selection === 1) {
-            await this.#inputTypeSetting(client);
+            await this.#operationTypeSetting(client, item);
             return;
         }
-        await this.#operationTypeSetting(client, item);
+        await this.#inputTypeSetting(client);
     }
 
     async #inputTypeSetting(client) {
@@ -86,7 +86,7 @@ export default class DebugStick {
             this.#openSettings(client, debugItem).catch(console.error);
             return;
         }
-        if(!client.isTap && player.isSneaking) return;
+        if(!(client.isTap || player.isSneaking)) return;
 
         const properties = block.permutation.getAllProperties();
         if(properties.length === 0) {
@@ -98,8 +98,10 @@ export default class DebugStick {
     }
 
     #itemUseOnEventHandler({ item, blockLocation, source: player }) {
-        const block = player.dimension.getBlock(blockLocation);
         const client = new Client(player);
+        if(!client.isTap && player.isSneaking) return;
+
+        const block = player.dimension.getBlock(blockLocation);
         const debugItem = new DebugStickItem(item);
         debugItem.operationType.doBlockStateChange(client, debugItem, block);
     }

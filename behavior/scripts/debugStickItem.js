@@ -1,7 +1,7 @@
 import { OPERATION_TYPES, TEXT_PREFIX } from "./operationType/index.js";
 
 
-const CUSTOM_DATA_TEXT = "Custom Data";
+const DATA_PREFIX_TEXT = "Extra Data";
 
 
 export class DebugStickItem {
@@ -34,7 +34,7 @@ export class DebugStickItem {
 
     #getData() {
         const [ , data ] = this.item.getLore();
-        return JSON.parse(data.replaceAll("§", "").replace(CUSTOM_DATA_TEXT, ""));
+        return JSON.parse(data.replaceAll("§", "").replace(DATA_PREFIX_TEXT, ""));
     }
 
     #setData(data) {
@@ -42,7 +42,7 @@ export class DebugStickItem {
         const [ type ] = this.item.getLore();
         this.item.setLore([
             type,
-            CUSTOM_DATA_TEXT + Array.from(json).map(t => "§" + t).join("")
+            DATA_PREFIX_TEXT + Array.from(json).map(t => "§" + t).join("")
         ]);
     }
 

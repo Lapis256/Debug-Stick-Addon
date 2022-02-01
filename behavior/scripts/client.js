@@ -51,7 +51,7 @@ export class Client {
     }
 
     get isTap() {
-        return this.inputType.id = "tap";
+        return this.inputType.id === INPUT_TYPES.tap.id;
     }
 
     send(translate, ..._with) {
