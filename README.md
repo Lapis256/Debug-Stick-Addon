@@ -67,3 +67,10 @@
 
 #### 入力方法設定
 ゲームの操作に使用しているものを選択したください。正しく設定しないと正常に動作しない可能性があります。
+
+## バグ報告・機能提案
+[issues](https://github.com/Lapis256/Debug-Stick-Addon/issues)から行ってください。
+
+## 貢献者
+- YamaRin [GitHub](https://github.com/YamaR1n) [Twitter](https://twitter.com/MCH_YamaRin)
+  - 一部英語の翻訳に協力していただきました。
