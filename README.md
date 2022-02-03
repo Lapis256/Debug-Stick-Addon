@@ -69,7 +69,7 @@
 ゲームの操作に使用しているものを選択したください。正しく設定しないと正常に動作しない可能性があります。
 
 ## バグ報告・機能提案
-[issues](https://github.com/Lapis256/Debug-Stick-Addon/issues)から行ってください。
+製作者の[Twitter](https://twitter.com/Lapis256)に送っても歓迎しますが、[issues](https://github.com/Lapis256/Debug-Stick-Addon/issues)から行ってくれると助かります。
 
 ## 貢献者
 - YamaRin [GitHub](https://github.com/YamaR1n) [Twitter](https://twitter.com/MCH_YamaRin)
