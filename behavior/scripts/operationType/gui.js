@@ -52,7 +52,6 @@ export default class GUI extends Base {
             }
             property.value = value;
         });
-        pprint(permutation.getAllProperties())
         item.addPermutation(block, permutation);
         item.setToClient(client);
         client.send("operation.gui.settings.done");
