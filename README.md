@@ -68,6 +68,13 @@
 #### 入力方法設定
 ゲームの操作に使用しているものを選択したください。正しく設定しないと正常に動作しない可能性があります。
 
+## 利用規約
+[LICENSE](https://github.com/Lapis256/Debug-Stick-Addon/blob/main/LICENSE)に従ってください。
+### 要約
+- このアドオンを使用する事で起こる損害に対して私は一切の責任を負いません。
+- [LICENSE](https://github.com/Lapis256/Debug-Stick-Addon/blob/main/LICENSE)ファイルの内容を書いてさえいればこのアドオンの商用利用、改変など好きにしても構いません。
+
+
 ## バグ報告・機能提案
 製作者の[Twitter](https://twitter.com/Lapis256)に送っても歓迎しますが、[issues](https://github.com/Lapis256/Debug-Stick-Addon/issues)から行ってくれると助かります。
 
